@@ -40,3 +40,28 @@ Buffered Channel
 
     - Buffered Channel Adalah buffer yg bisa digunakan untuk menampung data Antrian di Channel
     - Kapasitasnya Bebas sesuai kebutuhan channel 
+
+Race Condition
+
+    - Race Condition adalah masalah pada Goroutine
+    - Saat kita menggunakan Goroutine, dia tidak hanya berjalan secara concurrent tetapi juga secara paralel
+    - Hal ini sangat bahaya ketika kita melakukan manipulasi data variabel yg sama oleh beberapa Goroutine secara bersamaan
+
+Sync.Mutex
+
+    - Untuk megatasi masalah pada Race Condition kita bisa menggunakan package Mutex
+    - Mutex digunakan untuk locking dan unlocking
+    - Dengan demikian jika ada beberapa Goroutine melakukan lock terhadap mutex maka hanya ada 1 Goroutine yg berjalan, setelah unlock Goroutine selanjutnya baru bisa locking lagi
+    - Ini sangat cocok sebagai solusi terhadap race Condition
+    - Resiko menggunakan sync.Mutex adalah latency beberapa nano second
+
+RW.Mutex(Read & Write)
+    - Kadang kita menghadapi case dimana kita ingin melakukan locking tidak hanya pada proses merubah data, tetapi juga saat membaca data
+    - Jika kita menggunakan mutex saja maka akan terjadi rebutan antar proses membaca dan merubah
+    - Untuk mengatasi hal tersebut maka kita bisa menggunakan package RW.Mutex untuk menangani dua lock , lock Read dan lock Write
+
+DeadLock
+
+    - Hati2 saat kita membuat app yg paralel Atau concurrent, masalahnya kita akan sering menghadapi DeadLock
+    - DeadLock adalah keadaan dimana proses Goroutine saling menunggu lock sehingga tidak ada satupun Goroutine yg berjalan
+    
