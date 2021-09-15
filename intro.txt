@@ -65,3 +65,23 @@ DeadLock
     - Hati2 saat kita membuat app yg paralel Atau concurrent, masalahnya kita akan sering menghadapi DeadLock
     - DeadLock adalah keadaan dimana proses Goroutine saling menunggu lock sehingga tidak ada satupun Goroutine yg berjalan
     
+Wait Group
+    - Wait Group adalah  fitur yg bisa digunakan untuk menunggu sebuah proses selesai digunakan
+    - Hal ini dibutuhkan ketika kita menjalankan proses Goroutine, tapi kita ingin semua proses selesai dahulu sebelum sebuah app selesai
+    - Kasus diatas bisa menggunakan Wait Group
+    - Untuk menggunakannya kita bisa menggunakan method
+        Add(int) Jumlah value
+        Done() Setelah selesai menngunakan proses Goroutine
+        Wait() Untuk menunggu proses selesai
+
+
+Sync.Once
+    - Once adalah fitur Golang yg digunakan untuk memastikan sebuah function di eksekusi hanya sekali
+    - Berapapun Goroutine yg mengakses, bisa dipastikan bahwa Goroutine yg pertama yg hanya bisa mengakses fungsi tersebut
+    - Goroutine yg lain akan dihiraukan, artinya function tersebut tidak akan di eksekusi lagi 
+
+Sync.Pool
+    - Pool adalah implementasi dari design pattern bernama object pool pattern
+    - Simple nya design pattern Pool digunakan untuk menyimpan data, menggunakan datanya kita ambil dari Pool, dan setelah selesai menggunakan data kita simpan kembali dalam Pool
+    - implementasi Pool disini sudah aman dari Race Condition
+    - Biasanya digunakan dalam koneksi ke database

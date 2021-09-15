@@ -279,3 +279,72 @@ func TestDeadLock(t *testing.T) {
 	fmt.Println("User ", user1.Name, "Balance ", user1.Balance)
 	fmt.Println("User ", user2.Name, "Balance ", user2.Balance)
 }
+
+/*
+	<--------------------------------Wait Group---------------------------------------->
+*/
+
+func RunAsynchronous(group *sync.WaitGroup) {
+	defer group.Done()
+
+	group.Add(1)
+
+	fmt.Println("Hello world")
+	time.Sleep(1 * time.Second)
+}
+
+func TestWaitGroup(t *testing.T) {
+	group := &sync.WaitGroup{}
+
+	for i := 0; i < 100; i++ {
+		go RunAsynchronous(group)
+	}
+	group.Wait()
+}
+
+/*
+	<--------------------------------Sync.Once---------------------------------------->
+*/
+
+var counter = 0
+
+func OnlyOnce() {
+	counter++
+}
+
+func TestOnlyOnce(t *testing.T) {
+	once := sync.Once{}
+	group := sync.WaitGroup{}
+
+	for i := 0; i < 100; i++ {
+		go func() {
+			group.Add(1)
+			once.Do(OnlyOnce) //Function harus tidak memiliki parameter
+			group.Done()
+		}()
+	}
+	group.Wait()
+	fmt.Println("Counter ", counter) //Output : 1
+}
+
+/*
+	<--------------------------------Sync.Pool---------------------------------------->
+*/
+
+func TestPool(t *testing.T) {
+
+	pool := sync.Pool{}
+
+	pool.Put("Python") //pool.Put untuk memasukkan data
+	pool.Put("Golang")
+	pool.Put("Java")
+
+	for i := 0; i < 5; i++ {
+		go func() {
+			data := pool.Get()
+			fmt.Println(data)
+			pool.Put(data)
+		}()
+	}
+	time.Sleep(3 * time.Second)
+}
